@@ -51,6 +51,7 @@
         #home { padding: 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: center; overflow: hidden; }
         .section-title { 
             font-size: 2.5rem; color: var(--primary-neon); 
+            /* Reduced glow brightness by ~50% */
             text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon); 
             margin-bottom: 3rem; position: relative; display: inline-block; animation: pulse-glow-subtle 2s infinite alternate; 
         }
@@ -60,6 +61,7 @@
             transition: width .5s ease-in-out;
         }
         section.visible .section-title::after { width: 100%; }
+        /* Reduced glow brightness in animation */
         @keyframes pulse-glow-subtle { 
             from { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon); } 
             to { text-shadow: 0 0 5px var(--primary-neon), 0 0 12px var(--primary-neon); }
@@ -84,7 +86,9 @@
             box-shadow: 0 0 8px var(--secondary-neon); transition: width .3s ease; 
         }
         .main-nav a:hover::before, .main-nav a.active::before { width: 80%; }
+        /* Reduced glow brightness by ~50% */
         #home h1 { font-size: clamp(3rem, 10vw, 6rem); color: var(--primary-neon); text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); margin-bottom: .5rem; animation: flicker 3s infinite alternate; }
+        /* Reduced glow brightness in animation */
         @keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); opacity: 1; } 20%, 24%, 55% { text-shadow: none; opacity: .8; } }
         #home h2 { font-size: clamp(1.5rem, 5vw, 2.5rem); color: var(--light-text); margin-bottom: 1rem; }
         #home .subtitle { color: var(--medium-text); font-size: 1.2rem; margin-bottom: 2rem; }
@@ -150,6 +154,10 @@
         .animated-item:nth-child(4) { transition-delay: .3s; }
         
         /* --- Responsive Design --- */
+        @media (pointer: coarse) {
+            .cursor-ring { display: none; }
+            body { cursor: auto; }
+        }
         @media (max-width: 992px){ 
             .code-cube-container { display: none; } 
             #home { text-align: center; } 
@@ -157,13 +165,12 @@
         @media (max-width: 768px) {
             .main-header { padding: 1rem 0; height: auto; }
             .main-header .container { flex-direction: column; }
-            .main-nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+            .main-nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: .5rem; }
             .main-nav a::before { width: 60%; }
             .cta-buttons { display: flex; flex-direction: column; align-items: center; }
             section:not(#home) .container { text-align: center; }
             .about-content, .contact-content, .skills-grid { grid-template-columns: 1fr; }
-            .timeline { text-align: left; }
-            .contact-content { text-align: left; }
+            .timeline, .contact-info, .contact-form { text-align: left; }
         }
     </style>
 </head>
@@ -346,8 +353,7 @@ print(df.describe())</code></pre></div>
             const navLinks = document.querySelectorAll('.main-nav a');
             
             const observerOptions = {
-                rootMargin: `-${document.querySelector('.main-header').offsetHeight}px 0px -70% 0px`,
-                threshold: 0
+                rootMargin: `-120px 0px -85% 0px`, // Fine-tuned margin for better accuracy
             };
 
             const observer = new IntersectionObserver(entries => {
