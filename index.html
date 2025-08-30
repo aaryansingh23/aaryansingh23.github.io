@@ -22,13 +22,14 @@
             background-image: radial-gradient(circle, rgba(0, 240, 255, .05) 1px, transparent 1px);
             background-size: 2rem 2rem;
         }
+        body.mobile-menu-open { overflow: hidden; }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--dark-bg); }
         ::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 4px; box-shadow: 0 0 10px var(--primary-neon); }
         .cursor-ring { 
             position: fixed; top: 0; left: 0; width: 20px; height: 20px; 
             border: 2px solid var(--primary-neon); border-radius: 50%; 
-            pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); 
+            pointer-events: none; z-index: 1001; transform: translate(-50%, -50%); 
             transition: width .3s ease, height .3s ease, border-color .3s ease, opacity .2s ease;
         }
         .cursor-dot { 
@@ -156,6 +157,8 @@
         .animated-item:nth-child(2) { transition-delay: .1s; } .animated-item:nth-child(3) { transition-delay: .2s; }
         .animated-item:nth-child(4) { transition-delay: .3s; }
         
+        .mobile-nav-toggle { display: none; }
+
         @media (pointer: coarse) {
             .cursor-ring { display: none; }
             body { cursor: auto; }
@@ -165,10 +168,31 @@
             #home { text-align: center; } 
         }
         @media (max-width: 768px) {
-            .main-header { padding: 1rem 0; height: auto; }
-            .main-header .container { flex-direction: column; padding: 0 2rem; }
-            .main-nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: .5rem; }
-            .main-nav a::before { width: 60%; }
+            .main-header { padding: 1rem 0; height: 80px; }
+            .main-header .container { flex-direction: row; padding: 0 1rem; }
+            .logo { font-size: 1.5rem; }
+            .main-nav { 
+                position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+                background: rgba(10, 15, 30, .95); backdrop-filter: blur(10px);
+                display: flex; justify-content: center; align-items: center;
+                opacity: 0; pointer-events: none; transition: opacity .3s ease;
+            }
+            .main-nav.active { opacity: 1; pointer-events: all; }
+            .main-nav ul { flex-direction: column; gap: 2rem; }
+            .main-nav a { font-size: 2rem; }
+            .main-nav a::before { display: none; }
+            .mobile-nav-toggle { 
+                display: block; position: relative; z-index: 1001;
+                width: 30px; height: 21px; border: none; background: transparent;
+            }
+            .mobile-nav-toggle span {
+                display: block; width: 100%; height: 2px; background-color: var(--light-text);
+                margin: 6px 0; transition: transform .3s, opacity .3s;
+            }
+            .mobile-nav-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .mobile-nav-toggle.active span:nth-child(2) { opacity: 0; }
+            .mobile-nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
             .cta-buttons { display: flex; flex-direction: column; align-items: center; }
             section:not(#home) .container { text-align: center; }
             .about-content, .contact-content, .skills-grid { grid-template-columns: 1fr; }
@@ -200,6 +224,9 @@
                     <li><a href="#contact">CONTACT</a></li>
                 </ul>
             </nav>
+            <button class="mobile-nav-toggle" aria-label="Open navigation menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
     <main>
@@ -397,8 +424,25 @@ print(df.describe())</code></pre></div>
                 e.target.reset();
             });
 
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const mainNav = document.querySelector('.main-nav');
+
+            mobileNavToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileNavToggle.classList.toggle('active');
+                document.body.classList.toggle('mobile-menu-open');
+            });
+
+            mainNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainNav.classList.remove('active');
+                    mobileNavToggle.classList.remove('active');
+                    document.body.classList.remove('mobile-menu-open');
+                });
+            });
+
             particlesJS('particles-js', {
-              "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": true }, "size": { "value": 2, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#ff00ff", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 } } }, "retina_detect": true });
+              "particles": { "number": { "value": 80, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle" }, "opacity": { "value": 0.5, "random": true }, "size": { "value": 2, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#ff00ff", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 } } }, "retetica_detect": true });
         });
     </script>
 </body>
