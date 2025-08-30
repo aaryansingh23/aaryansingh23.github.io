@@ -74,6 +74,7 @@
         .main-header .container, .main-nav ul { display: flex; align-items: center; }
         .main-header .container { justify-content: space-between; }
         .logo { font-size: 2rem; color: var(--primary-neon); text-shadow: 0 0 8px var(--primary-neon); animation: pulse-glow-subtle 2s infinite alternate; }
+        .main-nav { display: block; }
         .main-nav ul { list-style: none; }
         .main-nav a { 
             color: var(--light-text); text-decoration: none; padding: .5rem 1.5rem; 
@@ -163,14 +164,20 @@
             .cursor-ring { display: none; }
             body { cursor: auto; }
         }
+        @media (min-width: 769px) {
+            .main-header .container {
+                /* Adjust the padding here (e.g., from 2rem to 5rem) to control spacing */
+                padding: 0 2rem;
+            }
+        }
         @media (max-width: 992px){ 
             .code-cube-container { display: none; } 
             #home { text-align: center; } 
         }
         @media (max-width: 768px) {
             .main-header { padding: 0; height: 80px; }
-            .main-header .container { flex-direction: row; padding: 0 1rem; width: 100%; max-width: 100%;}
-            .logo { font-size: 2rem; }
+            .main-header .container { flex-direction: row; padding: 0 1.5rem; width: 100%; max-width: 100%;}
+            .logo { font-size: 1.5rem; }
             .main-nav { 
                 position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
                 background: rgba(10, 15, 30, .95); backdrop-filter: blur(10px);
