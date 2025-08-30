@@ -47,11 +47,12 @@
         }
         @keyframes scanline-flicker { 0%, 100% { opacity: .8; } 50% { opacity: 1; } }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-        section { padding-top: calc(var(--header-height) + 30px); padding-bottom: 60px; position: relative; }
-        #home { padding: 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: center; overflow: hidden; }
+        section { padding-top: calc(var(--header-height) + 30px); padding-bottom: 30px; position: relative; }
+        #home { padding: 0; padding-bottom: 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: center; overflow: hidden; }
         #contact { padding-bottom: 32vh; }
         .section-title { 
             font-size: 2.5rem; color: var(--primary-neon); 
+            text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon); 
             margin-bottom: 2rem; position: relative; display: inline-block; animation: pulse-glow-subtle 2s infinite alternate; 
         }
         .section-title::after { 
@@ -83,9 +84,15 @@
             width: 0; height: 2px; background-color: var(--secondary-neon);
             box-shadow: 0 0 8px var(--secondary-neon); transition: width .3s ease; 
         }
-        .main-nav a:hover::before, .main-nav a.active::before { width: 80%; }
-        #home h1 { font-size: clamp(3rem, 10vw, 6rem); color: var(--primary-neon); margin-bottom: .5rem; animation: flicker 3s infinite alternate; }
-        @keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); opacity: 1; } 20%, 24%, 55% { text-shadow: none; opacity: .8; } }
+        .main-nav a:hover::before, .main-nav a.active::before { width: 40%; }
+        #home h1 { font-size: clamp(3rem, 10vw, 6rem); color: var(--primary-neon); margin-bottom: .5rem; animation: flicker 7s infinite linear; }
+        @keyframes flicker { 
+            0%, 10%, 20%, 30%, 50%, 70%, 100% { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); opacity: 1; } 
+            15%, 25%, 45%, 55%, 75% { text-shadow: none; opacity: .7; }
+            56%, 74% { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon); opacity: .9; }
+            90%, 94% { text-shadow: none; opacity: 0.5; }
+            92%, 96% { text-shadow: 0 0 3px var(--primary-neon); opacity: 1; }
+        }
         #home h2 { font-size: clamp(1.5rem, 5vw, 2.5rem); color: var(--light-text); margin-bottom: 1rem; }
         #home .subtitle { color: var(--medium-text); font-size: 1.2rem; margin-bottom: 2rem; }
         .btn { background: transparent; border: 2px solid var(--primary-neon); color: var(--primary-neon); padding: 12px 24px; font: 1rem 'Share Tech Mono', monospace; cursor: none; transition: background-color .3s, box-shadow .3s, color .3s, border-color .3s; }
@@ -159,20 +166,20 @@
         }
         @media (max-width: 768px) {
             .main-header { padding: 1rem 0; height: auto; }
-            .main-header .container { flex-direction: column; }
+            .main-header .container { flex-direction: column; padding: 0 2rem; }
             .main-nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: .5rem; }
             .main-nav a::before { width: 60%; }
             .cta-buttons { display: flex; flex-direction: column; align-items: center; }
             section:not(#home) .container { text-align: center; }
             .about-content, .contact-content, .skills-grid { grid-template-columns: 1fr; }
             .timeline, .contact-info, .contact-form { text-align: left; }
-            @keyframes pulse-glow-subtle { /* Adjust mobile glow brightness here */
+            @keyframes pulse-glow-subtle { 
                 from { text-shadow: 0 0 2px var(--primary-neon), 0 0 4px var(--primary-neon); } 
                 to { text-shadow: 0 0 3px var(--primary-neon), 0 0 6px var(--primary-neon); }
             }
-            @keyframes flicker { /* Adjust mobile glow brightness here */
-                0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 2px var(--primary-neon), 0 0 5px var(--primary-neon); opacity: 1; } 
-                20%, 24%, 55% { text-shadow: none; opacity: .8; } 
+            @keyframes flicker {
+                0%, 92%, 100% { text-shadow: 0 0 2px var(--primary-neon), 0 0 5px var(--primary-neon); opacity: 1; } 
+                93%, 95% { text-shadow: none; opacity: .8; } 
             }
         }
     </style>
@@ -186,11 +193,11 @@
             <div class="logo">[AARYAN_SINGH]</div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="#home" class="active">[M] HOME</a></li>
-                    <li><a href="#about">[M] ABOUT</a></li>
-                    <li><a href="#projects">[M] PROJECTS</a></li>
-                    <li><a href="#skills">[M] SKILLS</a></li>
-                    <li><a href="#contact">[M] CONTACT</a></li>
+                    <li><a href="#home" class="active">HOME</a></li>
+                    <li><a href="#about">ABOUT</a></li>
+                    <li><a href="#projects">PROJECTS</a></li>
+                    <li><a href="#skills">SKILLS</a></li>
+                    <li><a href="#contact">CONTACT</a></li>
                 </ul>
             </nav>
         </div>
