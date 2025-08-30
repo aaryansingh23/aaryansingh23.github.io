@@ -164,11 +164,17 @@
             .cursor-ring { display: none; }
             body { cursor: auto; }
         }
-        @media (min-width: 769px) {
-            .main-header .container {
-                /* Adjust the padding here (e.g., from 2rem to 5rem) to control spacing */
-                padding: 0 2rem;
-            }
+        @media (min-width: 993px) {
+            :root { font-size: 110%; } /* Increases base font size for scaling */
+            .container { max-width: 1650px; }
+            .code-cube-container { width: 450px; height: 450px; }
+            .code-cube__face { width: 450px; height: 450px; }
+            .code-cube__face--front { transform: rotateY(0) translateZ(225px); }
+            .code-cube__face--back { transform: rotateY(180deg) translateZ(225px); }
+            .code-cube__face--right { transform: rotateY(90deg) translateZ(225px); }
+            .code-cube__face--left { transform: rotateY(-90deg) translateZ(225px); }
+            .code-cube__face--top { transform: rotateX(90deg) translateZ(225px); }
+            .code-cube__face--bottom { transform: rotateX(-90deg) translateZ(225px); }
         }
         @media (max-width: 992px){ 
             .code-cube-container { display: none; } 
