@@ -165,8 +165,9 @@
             body { cursor: auto; }
         }
         @media (min-width: 993px) {
-            :root { font-size: 110%; } /* Increases base font size for scaling */
+            :root { font-size: 110%; }
             .container { max-width: 1650px; }
+            .main-header .container { padding: 0 5%; }
             .code-cube-container { width: 450px; height: 450px; }
             .code-cube__face { width: 450px; height: 450px; }
             .code-cube__face--front { transform: rotateY(0) translateZ(225px); }
@@ -181,9 +182,9 @@
             #home { text-align: center; } 
         }
         @media (max-width: 768px) {
-            .main-header { padding: 0; height: 80px; }
+            .main-header { padding: 0; height: 100px; }
             .main-header .container { flex-direction: row; padding: 0 1.5rem; width: 100%; max-width: 100%;}
-            .logo { font-size: 1.5rem; }
+            .logo { font-size: 2.25rem; }
             .main-nav { 
                 position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
                 background: rgba(10, 15, 30, .95); backdrop-filter: blur(10px);
@@ -197,7 +198,7 @@
             .mobile-nav-toggle { 
                 display: block; position: relative; z-index: 1001;
                 width: 40px; height: 40px; border: none; background: transparent;
-                transform: scale(1.2);
+                transform: scale(1.5);
             }
             .mobile-nav-toggle span {
                 display: block; width: 75%; height: 2px; background-color: var(--light-text);
@@ -210,7 +211,7 @@
             .mobile-nav-toggle.active span:nth-child(2) { opacity: 0; }
             .mobile-nav-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
             .cta-buttons { display: flex; flex-direction: column; align-items: center; }
-            section { padding-top: calc(80px + 2rem); }
+            section { padding-top: calc(100px + 2rem); }
             section:not(#home) .container { text-align: center; }
             .about-content, .contact-content, .skills-grid { grid-template-columns: 1fr; }
             .timeline, .contact-info, .contact-form { text-align: left; }
