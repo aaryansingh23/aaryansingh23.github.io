@@ -15,6 +15,7 @@
             --light-text: #d0d0d0;
             --medium-text: #888;
             --border-color: rgba(0, 240, 255, 0.2);
+            --header-height: 120px; /* Variable for header height */
         }
 
         /* --- Basic Setup & Scrollbar --- */
@@ -31,42 +32,12 @@
         ::-webkit-scrollbar-track { background: var(--dark-bg); }
         ::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 4px; box-shadow: 0 0 10px var(--primary-neon); }
 
-        /* --- EDIT: New Cursor Design (Ring + Dot) --- */
-        .cursor-ring {
-            position: fixed;
-            width: 20px; /* Made smaller */
-            height: 20px;
-            border: 2px solid var(--primary-neon);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, top 0.1s ease-out, left 0.1s ease-out;
-        }
-        .cursor-dot {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 4px;
-            height: 4px;
-            background-color: var(--primary-neon);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: background-color 0.3s ease;
-        }
-
-        /* --- EDIT: New Cursor Hover Effect --- */
-        .cursor-ring.grow {
-            width: 40px; /* Double the size */
-            height: 40px;
-            border-color: var(--secondary-neon); /* Turn purple */
-        }
-        .cursor-ring.grow .cursor-dot {
-            background-color: var(--secondary-neon); /* Turn purple */
-        }
-        .cursor-ring.hide { 
-            opacity: 0; 
-        }
+        /* --- Cursor --- */
+        .cursor-ring { position: fixed; width: 20px; height: 20px; border: 2px solid var(--primary-neon); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, top 0.1s ease-out, left 0.1s ease-out; }
+        .cursor-dot { position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; background-color: var(--primary-neon); border-radius: 50%; transform: translate(-50%, -50%); transition: background-color 0.3s ease; }
+        .cursor-ring.grow { width: 40px; height: 40px; border-color: var(--secondary-neon); }
+        .cursor-ring.grow .cursor-dot { background-color: var(--secondary-neon); }
+        .cursor-ring.hide { opacity: 0; }
 
         /* --- Dynamic Backgrounds & Overlays --- */
         #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -2; }
@@ -75,18 +46,33 @@
         
         /* --- General Layout & Typography --- */
         .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-        section { padding: 100px 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        
+        /* --- Section Layout Adjustment --- */
+        section {
+            padding-top: calc(var(--header-height) + 30px);
+            padding-bottom: 100px;
+            position: relative;
+        }
+        /* Keep Home section as a full-screen hero */
+        #home {
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
         .section-title { font-size: 2.5rem; color: var(--primary-neon); text-shadow: 0 0 5px var(--primary-neon), 0 0 15px var(--primary-neon), 0 0 25px var(--primary-neon); margin-bottom: 1rem; position: relative; display: inline-block; animation: pulse-glow 2s infinite alternate; }
         .section-title::after { content: ''; position: absolute; left: 0; bottom: -10px; width: 0; height: 2px; background-color: var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); transition: width 0.5s ease-in-out; }
         section.visible .section-title::after { width: 100%; }
         @keyframes pulse-glow { from { text-shadow: 0 0 5px var(--primary-neon), 0 0 15px var(--primary-neon), 0 0 25px var(--primary-neon); } to { text-shadow: 0 0 10px var(--primary-neon), 0 0 25px var(--primary-neon), 0 0 40px var(--primary-neon); } }
 
-        /* --- EDIT: Enlarged Header --- */
-        .main-header { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; /* Doubled padding */ z-index: 1000; background-color: rgba(10, 15, 30, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); }
+        /* --- Header --- */
+        .main-header { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 1000; background-color: rgba(10, 15, 30, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); height: var(--header-height); display: flex; align-items: center; }
         .main-header .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 2rem; /* Increased font size */ color: var(--primary-neon); text-shadow: 0 0 8px var(--primary-neon); animation: pulse-glow 2s infinite alternate; }
+        .logo { font-size: 2rem; color: var(--primary-neon); text-shadow: 0 0 8px var(--primary-neon); animation: pulse-glow 2s infinite alternate; }
         .main-nav ul { display: flex; list-style: none; }
-        .main-nav a { color: var(--light-text); text-decoration: none; padding: 0.5rem 1.5rem; /* Increased padding */ font-size: 1.2rem; /* Increased font size */ transition: color 0.3s, text-shadow 0.3s; position: relative; }
+        .main-nav a { color: var(--light-text); text-decoration: none; padding: 0.5rem 1.5rem; font-size: 1.2rem; transition: color 0.3s, text-shadow 0.3s; position: relative; }
         .main-nav a:hover, .main-nav a.active { color: var(--primary-neon); text-shadow: 0 0 5px var(--primary-neon); }
         .main-nav a::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: var(--secondary-neon); box-shadow: 0 0 8px var(--secondary-neon); transition: width 0.3s ease; }
         .main-nav a:hover::before, .main-nav a.active::before { width: 80%; }
@@ -146,6 +132,7 @@
         
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
+            .main-header { padding: 1rem 0; height: auto; }
             .main-header .container { flex-direction: column; }
             .main-nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
             .about-content, .contact-content { grid-template-columns: 1fr; }
@@ -158,7 +145,6 @@
     </style>
 </head>
 <body>
-    <!-- EDIT: Updated Cursor HTML -->
     <div class="cursor-ring">
         <div class="cursor-dot"></div>
     </div>
@@ -308,12 +294,10 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- EDIT: Updated Cursor Logic ---
             const cursor = document.querySelector('.cursor-ring');
             const interactiveElements = document.querySelectorAll('a, button, input, textarea, .project-card');
             
             document.addEventListener('mousemove', e => {
-                // Use translate for smoother GPU-accelerated movement
                 cursor.style.transform = `translate3d(${e.clientX - cursor.clientWidth / 2}px, ${e.clientY - cursor.clientHeight / 2}px, 0)`;
             });
             document.addEventListener('mouseleave', () => cursor.classList.add('hide'));
@@ -324,7 +308,6 @@
                 el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
             });
 
-            // --- Intersection Observer for scroll animations ---
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.main-nav a');
             const observer = new IntersectionObserver(entries => {
@@ -339,7 +322,6 @@
             }, { rootMargin: '0px', threshold: 0.3 });
             sections.forEach(section => observer.observe(section));
 
-            // --- Form submission demo ---
             const contactForm = document.querySelector('.contact-form');
             contactForm.addEventListener('submit', e => {
                 e.preventDefault();
@@ -347,10 +329,10 @@
                 contactForm.reset();
             });
 
-            // --- particles.js Initialization ---
             particlesJS('particles-js', {
               "particles": { "number": { "value": 100, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle", }, "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true, "anim": { "enable": false, } }, "line_linked": { "enable": true, "distance": 150, "color": "#7f00ff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 400, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true });
         });
     </script>
 </body>
 </html>
+
