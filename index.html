@@ -51,9 +51,8 @@
         #home { padding: 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: center; overflow: hidden; }
         .section-title { 
             font-size: 2.5rem; color: var(--primary-neon); 
-            /* Reduced glow brightness by ~50% */
-            text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); 
-            margin-bottom: 3rem; position: relative; display: inline-block; animation: pulse-glow 2s infinite alternate; 
+            text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon); 
+            margin-bottom: 3rem; position: relative; display: inline-block; animation: pulse-glow-subtle 2s infinite alternate; 
         }
         .section-title::after { 
             content: ''; position: absolute; left: 0; bottom: -10px; width: 0; height: 2px;
@@ -61,10 +60,9 @@
             transition: width .5s ease-in-out;
         }
         section.visible .section-title::after { width: 100%; }
-        /* Reduced glow brightness in animation */
-        @keyframes pulse-glow { 
-            from { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); } 
-            to { text-shadow: 0 0 5px var(--primary-neon), 0 0 12px var(--primary-neon), 0 0 20px var(--primary-neon); }
+        @keyframes pulse-glow-subtle { 
+            from { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon); } 
+            to { text-shadow: 0 0 5px var(--primary-neon), 0 0 12px var(--primary-neon); }
         }
         .main-header { 
             position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; z-index: 1000;
@@ -73,7 +71,7 @@
         }
         .main-header .container, .main-nav ul { display: flex; align-items: center; }
         .main-header .container { justify-content: space-between; }
-        .logo { font-size: 2rem; color: var(--primary-neon); text-shadow: 0 0 8px var(--primary-neon); animation: pulse-glow 2s infinite alternate; }
+        .logo { font-size: 2rem; color: var(--primary-neon); text-shadow: 0 0 8px var(--primary-neon); animation: pulse-glow-subtle 2s infinite alternate; }
         .main-nav ul { list-style: none; }
         .main-nav a { 
             color: var(--light-text); text-decoration: none; padding: .5rem 1.5rem; 
@@ -86,10 +84,8 @@
             box-shadow: 0 0 8px var(--secondary-neon); transition: width .3s ease; 
         }
         .main-nav a:hover::before, .main-nav a.active::before { width: 80%; }
-        /* Reduced glow brightness by ~50% */
         #home h1 { font-size: clamp(3rem, 10vw, 6rem); color: var(--primary-neon); text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); margin-bottom: .5rem; animation: flicker 3s infinite alternate; }
-        /* Reduced glow brightness in animation */
-        @keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon), 0 0 25px var(--primary-neon); opacity: 1; } 20%, 24%, 55% { text-shadow: none; opacity: .8; } }
+        @keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); opacity: 1; } 20%, 24%, 55% { text-shadow: none; opacity: .8; } }
         #home h2 { font-size: clamp(1.5rem, 5vw, 2.5rem); color: var(--light-text); margin-bottom: 1rem; }
         #home .subtitle { color: var(--medium-text); font-size: 1.2rem; margin-bottom: 2rem; }
         .btn { background: transparent; border: 2px solid var(--primary-neon); color: var(--primary-neon); padding: 12px 24px; font: 1rem 'Share Tech Mono', monospace; cursor: none; transition: background-color .3s, box-shadow .3s, color .3s, border-color .3s; }
@@ -152,12 +148,22 @@
         section.visible .animated-item { opacity: 1; transform: translateY(0); }
         .animated-item:nth-child(2) { transition-delay: .1s; } .animated-item:nth-child(3) { transition-delay: .2s; }
         .animated-item:nth-child(4) { transition-delay: .3s; }
-        @media (max-width: 992px){ .code-cube-container { display: none; } #home { text-align: center; } }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 992px){ 
+            .code-cube-container { display: none; } 
+            #home { text-align: center; } 
+        }
         @media (max-width: 768px) {
             .main-header { padding: 1rem 0; height: auto; }
             .main-header .container { flex-direction: column; }
             .main-nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+            .main-nav a::before { width: 60%; }
+            .cta-buttons { display: flex; flex-direction: column; align-items: center; }
+            section:not(#home) .container { text-align: center; }
             .about-content, .contact-content, .skills-grid { grid-template-columns: 1fr; }
+            .timeline { text-align: left; }
+            .contact-content { text-align: left; }
         }
     </style>
 </head>
@@ -312,8 +318,7 @@ print(df.describe())</code></pre></div>
             const interactiveElements = document.querySelectorAll('a, button, input, textarea, .project-card, .tech-item, .lang-card, .social-icon');
             let mouseX = 0, mouseY = 0, endX = 0, endY = 0;
 
-            const updateCursorPosition = e => { endX = e.clientX; endY = e.clientY; };
-            document.addEventListener('mousemove', updateCursorPosition);
+            document.addEventListener('mousemove', e => { endX = e.clientX; endY = e.clientY; });
 
             function animateCursor() {
                 mouseX += (endX - mouseX) / 12;
@@ -340,25 +345,25 @@ print(df.describe())</code></pre></div>
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.main-nav a');
             
-            // Corrected IntersectionObserver options for accurate highlighting
             const observerOptions = {
-                rootMargin: `-${(document.querySelector('.main-header').offsetHeight)}px 0px -65% 0px`,
+                rootMargin: `-${document.querySelector('.main-header').offsetHeight}px 0px -70% 0px`,
                 threshold: 0
             };
 
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
-                    if (!entry.isIntersecting) return;
-                    
-                    const id = entry.target.id;
-                    navLinks.forEach(link => {
-                        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-                    });
-                    
-                    entry.target.classList.add('visible');
-
-                    if (id === "skills") {
-                        entry.target.querySelectorAll(".progress").forEach(p => { p.style.width = p.style.getPropertyValue('--progress-width'); });
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                        entry.target.classList.add('visible');
+                        if (id === "skills") {
+                            entry.target.querySelectorAll(".progress").forEach(p => { p.style.width = p.style.getPropertyValue('--progress-width'); });
+                        }
                     }
                 });
             }, observerOptions);
