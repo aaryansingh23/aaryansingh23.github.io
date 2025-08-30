@@ -1,85 +1,356 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="with=device-width, initial-scale=1.0">
-    <title> Welcome To Ren's Website!  </title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Rajdhani&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com"> 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Kanit&family=Rajdhani&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css" integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous">
-<link rel="stylesheet" href="/Users/gotsk/Dropbox/Mac/Desktop/Programming/Projects/ren's portfolio website/font-awesome/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aaryan Singh - Data Scientist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #0a0f1e;
+            --primary-neon: #00f0ff;
+            --secondary-neon: #7f00ff; /* Purple for hover */
+            --light-text: #d0d0d0;
+            --medium-text: #888;
+            --border-color: rgba(0, 240, 255, 0.2);
+        }
+
+        /* --- Basic Setup & Scrollbar --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Share Tech Mono', monospace; 
+            background-color: var(--dark-bg); 
+            color: var(--light-text); 
+            overflow-x: hidden; 
+            cursor: none; 
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-neon); border-radius: 4px; box-shadow: 0 0 10px var(--primary-neon); }
+
+        /* --- EDIT: New Cursor Design (Ring + Dot) --- */
+        .cursor-ring {
+            position: fixed;
+            width: 20px; /* Made smaller */
+            height: 20px;
+            border: 2px solid var(--primary-neon);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, top 0.1s ease-out, left 0.1s ease-out;
+        }
+        .cursor-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background-color: var(--primary-neon);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: background-color 0.3s ease;
+        }
+
+        /* --- EDIT: New Cursor Hover Effect --- */
+        .cursor-ring.grow {
+            width: 40px; /* Double the size */
+            height: 40px;
+            border-color: var(--secondary-neon); /* Turn purple */
+        }
+        .cursor-ring.grow .cursor-dot {
+            background-color: var(--secondary-neon); /* Turn purple */
+        }
+        .cursor-ring.hide { 
+            opacity: 0; 
+        }
+
+        /* --- Dynamic Backgrounds & Overlays --- */
+        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -2; }
+        .scanlines { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: repeating-linear-gradient(0deg, rgba(0,0,0,0) 0px, rgba(0, 240, 255, 0.05) 1px, rgba(0,0,0,0) 2px); z-index: -1; pointer-events: none; animation: scanline-flicker 10s infinite; }
+        @keyframes scanline-flicker { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+        
+        /* --- General Layout & Typography --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        section { padding: 100px 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .section-title { font-size: 2.5rem; color: var(--primary-neon); text-shadow: 0 0 5px var(--primary-neon), 0 0 15px var(--primary-neon), 0 0 25px var(--primary-neon); margin-bottom: 1rem; position: relative; display: inline-block; animation: pulse-glow 2s infinite alternate; }
+        .section-title::after { content: ''; position: absolute; left: 0; bottom: -10px; width: 0; height: 2px; background-color: var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); transition: width 0.5s ease-in-out; }
+        section.visible .section-title::after { width: 100%; }
+        @keyframes pulse-glow { from { text-shadow: 0 0 5px var(--primary-neon), 0 0 15px var(--primary-neon), 0 0 25px var(--primary-neon); } to { text-shadow: 0 0 10px var(--primary-neon), 0 0 25px var(--primary-neon), 0 0 40px var(--primary-neon); } }
+
+        /* --- EDIT: Enlarged Header --- */
+        .main-header { position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 0; /* Doubled padding */ z-index: 1000; background-color: rgba(10, 15, 30, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-color); }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 2rem; /* Increased font size */ color: var(--primary-neon); text-shadow: 0 0 8px var(--primary-neon); animation: pulse-glow 2s infinite alternate; }
+        .main-nav ul { display: flex; list-style: none; }
+        .main-nav a { color: var(--light-text); text-decoration: none; padding: 0.5rem 1.5rem; /* Increased padding */ font-size: 1.2rem; /* Increased font size */ transition: color 0.3s, text-shadow 0.3s; position: relative; }
+        .main-nav a:hover, .main-nav a.active { color: var(--primary-neon); text-shadow: 0 0 5px var(--primary-neon); }
+        .main-nav a::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background-color: var(--secondary-neon); box-shadow: 0 0 8px var(--secondary-neon); transition: width 0.3s ease; }
+        .main-nav a:hover::before, .main-nav a.active::before { width: 80%; }
+
+        /* --- Home Section & 3D Cube --- */
+        #home { text-align: center; overflow: hidden; }
+        #home h1 { font-size: clamp(3rem, 10vw, 6rem); color: var(--primary-neon); text-shadow: 0 0 5px var(--primary-neon), 0 0 15px var(--primary-neon), 0 0 30px var(--primary-neon); margin-bottom: 0.5rem; animation: flicker 3s infinite alternate, text-glitch 5s infinite; }
+        @keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 5px var(--primary-neon), 0 0 15px var(--primary-neon), 0 0 30px var(--primary-neon), 0 0 50px var(--primary-neon); opacity: 1; } 20%, 24%, 55% { text-shadow: none; opacity: 0.8; } }
+        @keyframes text-glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(-2px, -2px); } 60% { transform: translate(2px, 2px); } 80% { transform: translate(2px, -2px); } 100% { transform: translate(0); } }
+        #home h2 { font-size: clamp(1.5rem, 5vw, 2.5rem); color: var(--light-text); margin-bottom: 1rem; }
+        #home .subtitle { color: var(--medium-text); font-size: 1.2rem; margin-bottom: 2rem; }
+        .btn { background: transparent; border: 2px solid var(--primary-neon); color: var(--primary-neon); padding: 12px 24px; font-family: 'Share Tech Mono', monospace; font-size: 1rem; cursor: none; transition: background-color 0.3s, box-shadow 0.3s, color 0.3s, border-color 0.3s; }
+        .btn:hover { background-color: rgba(0, 240, 255, 0.1); box-shadow: 0 0 20px var(--primary-neon); }
+        .cta-buttons .btn { margin: 0.5rem; box-shadow: 0 0 5px transparent; }
+        .data-cube-container { position: absolute; top: 50%; left: 50%; width: 300px; height: 300px; perspective: 1000px; transform: translate(-50%, -50%); z-index: -1; opacity: 0.1; }
+        .data-cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: rotate-cube 20s infinite linear; }
+        .data-cube__face { position: absolute; width: 300px; height: 300px; border: 1px solid var(--primary-neon); background: radial-gradient(circle, rgba(0, 240, 255, 0.1) 0%, rgba(0, 240, 255, 0) 70%); }
+        .data-cube__face--front  { transform: rotateY(  0deg) translateZ(150px); }
+        .data-cube__face--back   { transform: rotateY(180deg) translateZ(150px); }
+        .data-cube__face--right  { transform: rotateY( 90deg) translateZ(150px); }
+        .data-cube__face--left   { transform: rotateY(-90deg) translateZ(150px); }
+        .data-cube__face--top    { transform: rotateX( 90deg) translateZ(150px); }
+        .data-cube__face--bottom { transform: rotateX(-90deg) translateZ(150px); }
+        @keyframes rotate-cube { from { transform: rotateX(0deg) rotateY(0deg); } to { transform: rotateX(360deg) rotateY(360deg); } }
+
+        /* --- Content & Cards --- */
+        .about-content, .contact-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+        .about-text p:first-of-type { margin-bottom: 1rem; }
+        .timeline { position: relative; padding-left: 2rem; border-left: 2px solid var(--border-color); }
+        .timeline-item { margin-bottom: 2rem; position: relative; }
+        .timeline-item::before { content: ''; position: absolute; left: -41px; top: 5px; width: 15px; height: 15px; border-radius: 50%; background-color: var(--dark-bg); border: 2px solid var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); transition: transform 0.3s; }
+        .timeline-item:hover::before { transform: scale(1.3); box-shadow: 0 0 15px var(--secondary-neon); border-color: var(--secondary-neon); }
+        .timeline-item h3 { color: var(--primary-neon); }
+        .timeline-item p { color: var(--medium-text); margin-top: 0.5rem; }
+        .projects-grid, .skills-grid { display: grid; gap: 2rem; margin-top: 3rem; }
+        .projects-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+        .project-card { background-color: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); padding: 1.5rem; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; backdrop-filter: blur(5px); }
+        .project-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 20px var(--secondary-neon); border-color: var(--secondary-neon); }
+        .project-card h3 { color: var(--secondary-neon); text-shadow: 0 0 8px var(--secondary-neon); }
+        .project-card p { margin: 1rem 0; }
+        .tags .tag { display: inline-block; background-color: rgba(127, 0, 255, 0.2); color: var(--light-text); padding: 0.25rem 0.5rem; font-size: 0.8rem; margin: 0 0.5rem 0.5rem 0; border-radius: 4px; border: 1px solid rgba(127,0,255,0.4); }
+        .skills-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .skill-category h3 { color: var(--primary-neon); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; }
+        .skill-item { margin-bottom: 0.5rem; }
+        .contact-info p { margin-bottom: 1rem; }
+        .contact-info strong { color: var(--primary-neon); }
+        .contact-form .form-group { margin-bottom: 1.5rem; }
+        .contact-form input, .contact-form textarea { width: 100%; background-color: transparent; border: 1px solid var(--border-color); color: var(--light-text); padding: 0.8rem; font-family: 'Share Tech Mono', monospace; transition: border-color 0.3s, box-shadow 0.3s; }
+        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); }
+        .main-footer { text-align: center; padding: 2rem 0; border-top: 1px solid var(--border-color); background-color: rgba(10, 15, 30, 0.8); }
+        .animated-item { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        section.visible .animated-item { opacity: 1; transform: translateY(0); }
+        .animated-item:nth-child(1) { transition-delay: 0.1s; }
+        .animated-item:nth-child(2) { transition-delay: 0.2s; }
+        .animated-item:nth-child(3) { transition-delay: 0.3s; }
+        .animated-item:nth-child(4) { transition-delay: 0.4s; }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .main-header .container { flex-direction: column; }
+            .main-nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+            .about-content, .contact-content { grid-template-columns: 1fr; }
+            .data-cube-container { width: 200px; height: 200px; opacity: 0.05; }
+            .data-cube__face { width: 200px; height: 200px; }
+            .data-cube__face--front, .data-cube__face--back { transform: rotateY(0deg) translateZ(100px); }
+            .data-cube__face--right, .data-cube__face--left { transform: rotateY(90deg) translateZ(100px); }
+            .data-cube__face--top, .data-cube__face--bottom { transform: rotateX(90deg) translateZ(100px); }
+        }
+    </style>
 </head>
 <body>
-    <section class="header">
-        <nav>
-            <a href="index.html"><img src="images/logo.png"></a>
-            <div class="nav-links" id="navLinks">
-                <i class="fa fa-times" onclick="hideMenu()"></i>
-                <ul>
-                    <li><a href="">HOME</a></li>
-                    <li><a href="">STORE</a></li>
-                    <li><a href="">MEMBERSHIPS</a></li>
-                    <li><a href="">ABOUT US</a></li>
-                    <li><a href="">CONTACT ME</a></li>
-                </ul>
-            </div>
-            <i class="fa fa-bars" onclick="showMenu()"></i>
-        </nav>
-
-    <div class="main-text">
-        <h1></h1>
-        </div>
-    <div class="sub-text">
-        <p> This is my personal online portfolio where you can find out about my current endeavors and contact me.
-        </p>
-        <a href="" class="hero-btn">Click here for free cookies!!</a>
+    <!-- EDIT: Updated Cursor HTML -->
+    <div class="cursor-ring">
+        <div class="cursor-dot"></div>
     </div>
 
+    <div id="particles-js"></div>
+    <div class="scanlines"></div>
 
-    </section>
-<!-------Course------>
-
-<section class="app">
-    <h1>Download Our App!</h1>
-        <p>JARNIS OFFICE</p>
-    
-        <div class="row">
-            <div class="course-col">
-                <h3>Intermediate</h3>
-                <p>Whattttttttt</p>
-            </div>
-            <div class="course-col">
-                <h3>Degree</h3>
-                <p>Whattttttttt</p>
-            </div>
-            <div class="course-col">
-                <h3>Graduation</h3>
-                <p>Whattttttttt</p>
-            </div>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">[AARYAN_SINGH]</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home" class="active">[M] HOME</a></li>
+                    <li><a href="#about">[M] ABOUT</a></li>
+                    <li><a href="#projects">[M] PROJECTS</a></li>
+                    <li><a href="#skills">[M] SKILLS</a></li>
+                    <li><a href="#contact">[M] CONTACT</a></li>
+                </ul>
+            </nav>
         </div>
-</section>
+    </header>
+    <main>
+        <section id="home">
+            <div class="data-cube-container">
+                <div class="data-cube">
+                    <div class="data-cube__face data-cube__face--front"></div>
+                    <div class="data-cube__face data-cube__face--back"></div>
+                    <div class="data-cube__face data-cube__face--right"></div>
+                    <div class="data-cube__face data-cube__face--left"></div>
+                    <div class="data-cube__face data-cube__face--top"></div>
+                    <div class="data-cube__face data-cube__face--bottom"></div>
+                </div>
+            </div>
+            <div class="container">
+                <h1>AARYAN SINGH</h1>
+                <h2>DATA SCIENTIST</h2>
+                <p class="subtitle">&gt; MACHINE LEARNING SPECIALIST</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn">VIEW_FEATURED_PROJECTS</a>
+                    <a href="#contact" class="btn">ESTABLISH_CONNECTION</a>
+                </div>
+            </div>
+        </section>
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">ABOUT_SYSTEM</h2>
+                <div class="about-content">
+                    <div class="about-text animated-item">
+                        <p>A passionate computer scientist with a strong foundation in data science and machine learning. My expertise lies in developing intelligent systems, analyzing complex datasets, and creating predictive models to solve real-world problems.</p>
+                        <p>I thrive in environments that challenge me to learn and innovate, constantly seeking to expand my skills and push the boundaries of what's possible with technology.</p>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-item animated-item">
+                            <h3>M.S. in Computer Science</h3>
+                            <p>University of Southern California | 2022-2024</p>
+                        </div>
+                        <div class="timeline-item animated-item">
+                            <h3>Data Science Intern</h3>
+                            <p>Tech Solutions Inc. | Summer 2023</p>
+                        </div>
+                         <div class="timeline-item animated-item">
+                            <h3>B.Tech in Computer Engineering</h3>
+                            <p>Delhi Technological University | 2018-2022</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="projects">
+            <div class="container">
+                <h2 class="section-title">PROJECT_ARCHIVES</h2>
+                <div class="projects-grid">
+                    <div class="project-card animated-item">
+                        <h3>Sentiment Analysis Engine</h3>
+                        <p>A deep learning model using NLP techniques to classify text sentiment with over 95% accuracy. Deployed as a scalable REST API.</p>
+                        <div class="tags"><span class="tag">Python</span><span class="tag">TensorFlow</span><span class="tag">Flask</span><span class="tag">Docker</span></div>
+                    </div>
+                     <div class="project-card animated-item">
+                        <h3>Real-time Object Detection</h3>
+                        <p>Implemented a YOLOv4-based system for real-time object detection in video streams, optimized for performance on edge devices.</p>
+                        <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">OpenCV</span><span class="tag">CUDA</span></div>
+                    </div>
+                     <div class="project-card animated-item">
+                        <h3>Customer Churn Prediction</h3>
+                        <p>Developed a machine learning pipeline to predict customer churn, enabling proactive retention strategies. Utilized feature engineering and model stacking.</p>
+                        <div class="tags"><span class="tag">Scikit-learn</span><span class="tag">Pandas</span><span class="tag">XGBoost</span><span class="tag">AWS</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="skills">
+             <div class="container">
+                <h2 class="section-title">TECHNICAL_SKILLS</h2>
+                <div class="skills-grid">
+                    <div class="skill-category animated-item">
+                        <h3>Core Competencies</h3>
+                        <p class="skill-item">- Data Analysis & Visualization</p>
+                        <p class="skill-item">- Predictive Modeling</p>
+                        <p class="skill-item">- Natural Language Processing</p>
+                        <p class="skill-item">- Computer Vision</p>
+                        <p class="skill-item">- Algorithm Design</p>
+                    </div>
+                    <div class="skill-category animated-item">
+                        <h3>Languages</h3>
+                        <p class="skill-item">- Python</p><p class="skill-item">- SQL</p><p class="skill-item">- R</p><p class="skill-item">- C++</p><p class="skill-item">- Java</p>
+                    </div>
+                    <div class="skill-category animated-item">
+                        <h3>Frameworks & Libraries</h3>
+                        <p class="skill-item">- TensorFlow & Keras</p><p class="skill-item">- PyTorch</p><p class="skill-item">- Scikit-learn</p><p class="skill-item">- Pandas & NumPy</p><p class="skill-item">- Spark</p>
+                    </div>
+                     <div class="skill-category animated-item">
+                        <h3>Tools & Platforms</h3>
+                        <p class="skill-item">- AWS & GCP</p><p class="skill-item">- Docker</p><p class="skill-item">- Git & GitHub</p><p class="skill-item">- Jupyter</p><p class="skill-item">- Tableau</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">CONTACT_INTERFACE</h2>
+                <div class="contact-content">
+                    <div class="contact-info animated-item">
+                        <p><strong>Status:</strong> Available for new connections.</p>
+                        <p><strong>Signal Frequency:</strong> 24/7 via digital transmission.</p>
+                        <p><strong>Primary Channel:</strong> singh.aaryan@email.com</p>
+                        <p><strong>Coordinates:</strong> Los Angeles, CA</p>
+                        <p>Open to collaborations, project inquiries, and opportunities. Send a transmission, and I will get back to you promptly.</p>
+                    </div>
+                    <form class="contact-form animated-item">
+                        <div class="form-group"><input type="text" name="name" placeholder="[CALLSIGN]" required></div>
+                          <div class="form-group"><input type="email" name="email" placeholder="[EMAIL_ADDRESS]" required></div>
+                          <div class="form-group"><textarea name="message" rows="5" placeholder="[TRANSMISSION_BODY]" required></textarea></div>
+                        <button type="submit" class="btn">SEND_TRANSMISSION</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2024 AARYAN SINGH. ALL RIGHTS RESERVED.</p>
+            <p>DESIGN INSPIRED BY CYBERPUNK AESTHETICS.</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- EDIT: Updated Cursor Logic ---
+            const cursor = document.querySelector('.cursor-ring');
+            const interactiveElements = document.querySelectorAll('a, button, input, textarea, .project-card');
+            
+            document.addEventListener('mousemove', e => {
+                // Use translate for smoother GPU-accelerated movement
+                cursor.style.transform = `translate3d(${e.clientX - cursor.clientWidth / 2}px, ${e.clientY - cursor.clientHeight / 2}px, 0)`;
+            });
+            document.addEventListener('mouseleave', () => cursor.classList.add('hide'));
+            document.addEventListener('mouseenter', () => cursor.classList.remove('hide'));
 
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseover', () => cursor.classList.add('grow'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+            });
 
+            // --- Intersection Observer for scroll animations ---
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.main-nav a');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('visible');
+                    const animatedItems = entry.target.querySelectorAll('.timeline-item, .project-card, .skill-category, .contact-info, .contact-form, .about-text');
+                    animatedItems.forEach(item => item.classList.add('animated-item'));
+                    const id = entry.target.id;
+                    navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${id}`));
+                });
+            }, { rootMargin: '0px', threshold: 0.3 });
+            sections.forEach(section => observer.observe(section));
 
+            // --- Form submission demo ---
+            const contactForm = document.querySelector('.contact-form');
+            contactForm.addEventListener('submit', e => {
+                e.preventDefault();
+                alert('Transmission sent successfully! (Demo)');
+                contactForm.reset();
+            });
 
-
-
-  <!--------JavaScript for Toggle Menu-------->
- <script>
-
-    var navLinks = document.getElementById("navLinks");
-    function showMenu(){
-        navLinks.style.right = "0";
-    }
-    function hideMenu(){
-        navLinks.style.right = "-200px";
-    }
-</script>
-
-
+            // --- particles.js Initialization ---
+            particlesJS('particles-js', {
+              "particles": { "number": { "value": 100, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#00f0ff" }, "shape": { "type": "circle", }, "opacity": { "value": 0.6, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } }, "size": { "value": 3, "random": true, "anim": { "enable": false, } }, "line_linked": { "enable": true, "distance": 150, "color": "#7f00ff", "opacity": 0.4, "width": 1 }, "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, } } }, "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true }, "modes": { "grab": { "distance": 400, "line_linked": { "opacity": 1 } }, "bubble": { "distance": 400, "size": 40, "duration": 2, "opacity": 8, "speed": 3 }, "repulse": { "distance": 100, "duration": 0.4 }, "push": { "particles_nb": 4 }, "remove": { "particles_nb": 2 } } }, "retina_detect": true });
+        });
+    </script>
 </body>
 </html>
