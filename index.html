@@ -377,26 +377,26 @@ print(df.describe())</code></pre></div>
         document.addEventListener('DOMContentLoaded', () => {
             const cursor = document.querySelector('.cursor-ring');
             const interactiveElements = document.querySelectorAll('a, button, input, textarea, .project-card, .tech-item, .lang-card, .social-icon');
-            let mouseX = 0, mouseY = 0, endX = 0, endY = 0;
+            
+            // --- MODIFICATION START ---
 
-            document.addEventListener('mousemove', e => { endX = e.clientX; endY = e.clientY; });
-
-            function animateCursor() {
-                mouseX += (endX - mouseX) / 12;
-                mouseY += (endY - mouseY) / 12;
-                cursor.style.transform = `translate(${mouseX - cursor.clientWidth / 2}px, ${mouseY - cursor.clientHeight / 2}px)`;
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
+            // The cursor's position is now set directly, removing the animation effect.
+            document.addEventListener('mousemove', e => { 
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+            });
+            
+            // The animation function and its related variables have been removed.
 
             document.addEventListener('mousedown', e => { if (e.clientX >= document.documentElement.clientWidth) cursor.classList.add('hide'); });
             document.addEventListener('mouseup', () => cursor.classList.remove('hide'));
             document.addEventListener('mouseleave', () => cursor.classList.add('hide'));
             document.addEventListener('mouseenter', e => {
-                endX = mouseX = e.clientX;
-                endY = mouseY = e.clientY;
+                // Simplified to just show the cursor again.
                 cursor.classList.remove('hide');
             });
+            
+            // --- MODIFICATION END ---
 
             interactiveElements.forEach(el => {
                 el.addEventListener('mouseover', () => cursor.classList.add('grow'));
@@ -464,4 +464,3 @@ print(df.describe())</code></pre></div>
     </script>
 </body>
 </html>
-
