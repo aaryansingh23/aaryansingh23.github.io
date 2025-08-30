@@ -47,13 +47,14 @@
         }
         @keyframes scanline-flicker { 0%, 100% { opacity: .8; } 50% { opacity: 1; } }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-        section { padding-top: calc(var(--header-height) + 30px); padding-bottom: 100px; position: relative; }
+        section { padding-top: calc(var(--header-height) + 30px); padding-bottom: 60px; position: relative; }
         #home { padding: 0; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; text-align: center; overflow: hidden; }
+        /* Adjust this value to change the extra space at the bottom of the page */
+        #contact { padding-bottom: 32vh; }
         .section-title { 
             font-size: 2.5rem; color: var(--primary-neon); 
-            /* Reduced glow brightness by ~50% */
             text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon); 
-            margin-bottom: 3rem; position: relative; display: inline-block; animation: pulse-glow-subtle 2s infinite alternate; 
+            margin-bottom: 2rem; position: relative; display: inline-block; animation: pulse-glow-subtle 2s infinite alternate; 
         }
         .section-title::after { 
             content: ''; position: absolute; left: 0; bottom: -10px; width: 0; height: 2px;
@@ -61,7 +62,6 @@
             transition: width .5s ease-in-out;
         }
         section.visible .section-title::after { width: 100%; }
-        /* Reduced glow brightness in animation */
         @keyframes pulse-glow-subtle { 
             from { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon); } 
             to { text-shadow: 0 0 5px var(--primary-neon), 0 0 12px var(--primary-neon); }
@@ -86,9 +86,7 @@
             box-shadow: 0 0 8px var(--secondary-neon); transition: width .3s ease; 
         }
         .main-nav a:hover::before, .main-nav a.active::before { width: 80%; }
-        /* Reduced glow brightness by ~50% */
         #home h1 { font-size: clamp(3rem, 10vw, 6rem); color: var(--primary-neon); text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); margin-bottom: .5rem; animation: flicker 3s infinite alternate; }
-        /* Reduced glow brightness in animation */
         @keyframes flicker { 0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 3px var(--primary-neon), 0 0 8px var(--primary-neon), 0 0 15px var(--primary-neon); opacity: 1; } 20%, 24%, 55% { text-shadow: none; opacity: .8; } }
         #home h2 { font-size: clamp(1.5rem, 5vw, 2.5rem); color: var(--light-text); margin-bottom: 1rem; }
         #home .subtitle { color: var(--medium-text); font-size: 1.2rem; margin-bottom: 2rem; }
@@ -107,9 +105,9 @@
         .code-cube__face--top, .code-cube__face--bottom { background: transparent; border-color: transparent; box-shadow: none; }
         .code-cube__face--top{ transform: rotateX(90deg) translateZ(150px); } .code-cube__face--bottom{ transform: rotateX(-90deg) translateZ(150px); }
         @keyframes rotate-cube{ from { transform: rotateX(0) rotateY(0); } to { transform: rotateX(360deg) rotateY(360deg); } }
-        .about-content, .contact-content, .skills-grid { display: grid; gap: 2rem; margin-top: 3rem; }
+        .about-content, .contact-content, .skills-grid, .projects-grid, .language-grid { display: grid; gap: 2rem; margin-top: 0; }
         .about-content, .skills-grid { grid-template-columns: 1fr 1fr; }
-        .projects-grid, .language-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .projects-grid, .language-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .timeline { position: relative; padding-left: 2rem; border-left: 2px solid var(--border-color); }
         .timeline-item { margin-bottom: 2rem; position: relative; }
         .timeline-item::before { content: ''; position: absolute; left: -41px; top: 5px; width: 15px; height: 15px; border-radius: 50%; background-color: var(--dark-bg); border: 2px solid var(--primary-neon); box-shadow: 0 0 10px var(--primary-neon); transition: transform .3s; }
@@ -353,7 +351,8 @@ print(df.describe())</code></pre></div>
             const navLinks = document.querySelectorAll('.main-nav a');
             
             const observerOptions = {
-                rootMargin: `-120px 0px -85% 0px`, // Fine-tuned margin for better accuracy
+                rootMargin: `-120px 0px -70% 0px`,
+                threshold: 0
             };
 
             const observer = new IntersectionObserver(entries => {
